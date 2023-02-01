@@ -1,4 +1,5 @@
 package org.example;
+import org.example.validator.OsValidator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,12 +17,17 @@ public class ChromeTest implements ActionListener {
     private JButton searchButton;
     private WebDriver driver;
     private static Logger LOGGER = Logger.getLogger("ChromeTest");
+    OsValidator osValidator;
+    String path;
 
     public ChromeTest() {
         frame = new JFrame("Chrome Test");
         searchButton = new JButton("Search");
 
         searchButton.addActionListener(this);
+
+        osValidator = new OsValidator();
+        path = osValidator.getPath();
 
         frame.setMinimumSize(new Dimension(250,250));
         frame.setLocationRelativeTo(null);
@@ -37,7 +43,7 @@ public class ChromeTest implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.setProperty("webdriver.chrome.driver", ".\\chromeDriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", path);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
